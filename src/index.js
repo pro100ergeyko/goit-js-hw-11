@@ -13,7 +13,7 @@ const refs = {
 
 const API_KEY = '37960229-568719668cd9d6c687eddc6ce';
 const BASE_URL = 'https://pixabay.com/api/';
-const maxPage = '20';
+const PER_PAGE = '40';
 let currentPage = 1;
 let currentQuery = '';
 let requestUrl = '';
@@ -45,14 +45,14 @@ async function fetchSearchInData() {
 
 function chackFatchResult(data) {
   const { hits, totalHits } = data;
-  if (hits.lenght === 0) {
+  if (hits.length === 0) {
     Notiflix.Notify.failure(
       'Sorry! There are no images matching your search query. Please try again.'
     );
     hideLoadMoreBtn();
   } else {
     createMarkup(hits);
-    if (currentPage * maxPage <= totalHits) {
+    if (currentPage * PER_PAGE <= totalHits) {
       showLoadMoreBtn();
     } else {
       hideLoadMoreBtn();
@@ -71,7 +71,7 @@ function getRequest(query, page) {
   url.searchParams.append('orientation', 'horizontal');
   url.searchParams.append('safesearch', 'true');
   url.searchParams.append('page', page.toString());
-  url.searchParams.append('per_page', maxPage.toString());
+  url.searchParams.append('per_page', PER_PAGE.toString());
   return url.toString();
 }
 
@@ -80,11 +80,11 @@ function clearGalery() {
 }
 
 function hideLoadMoreBtn() {
-  refs.loadMore.style.display = 'block';
+  refs.loadMore.style.display = 'none';
 }
 
 function showLoadMoreBtn() {
-  refs.loadMore.style.display = 'none';
+  refs.loadMore.style.display = 'block';
 }
 
 async function handlerLoadMore() {
